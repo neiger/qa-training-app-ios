@@ -24,9 +24,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		236AC235C62B4829D73FC74F /* Pods_qatrainingappTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_qatrainingappTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D36F57F2D779FC600FBF5E5 /* qatrainingapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qatrainingapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D36F5952D779FC900FBF5E5 /* qatrainingappTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = qatrainingappTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D36F59F2D779FCA00FBF5E5 /* qatrainingappUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = qatrainingappUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		74CA4DC8CBD4E686A809A223 /* Pods_qatrainingapp_qatrainingappUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_qatrainingapp_qatrainingappUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B843505727812919FE998C34 /* Pods_qatrainingapp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_qatrainingapp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -61,21 +64,7 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		3D36F57C2D779FC600FBF5E5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		3D36F5922D779FC900FBF5E5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3D36F59C2D779FCA00FBF5E5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -92,6 +81,7 @@
 				3D36F5982D779FC900FBF5E5 /* qatrainingappTests */,
 				3D36F5A22D779FCA00FBF5E5 /* qatrainingappUITests */,
 				3D36F5802D779FC600FBF5E5 /* Products */,
+				682B5CCA8E9BCCDF194141DE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -105,6 +95,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		682B5CCA8E9BCCDF194141DE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B843505727812919FE998C34 /* Pods_qatrainingapp.framework */,
+				74CA4DC8CBD4E686A809A223 /* Pods_qatrainingapp_qatrainingappUITests.framework */,
+				236AC235C62B4829D73FC74F /* Pods_qatrainingappTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -113,7 +113,6 @@
 			buildConfigurationList = 3D36F5A82D779FCA00FBF5E5 /* Build configuration list for PBXNativeTarget "qatrainingapp" */;
 			buildPhases = (
 				3D36F57B2D779FC600FBF5E5 /* Sources */,
-				3D36F57C2D779FC600FBF5E5 /* Frameworks */,
 				3D36F57D2D779FC600FBF5E5 /* Resources */,
 			);
 			buildRules = (
@@ -124,8 +123,6 @@
 				3D36F5812D779FC600FBF5E5 /* qatrainingapp */,
 			);
 			name = qatrainingapp;
-			packageProductDependencies = (
-			);
 			productName = qatrainingapp;
 			productReference = 3D36F57F2D779FC600FBF5E5 /* qatrainingapp.app */;
 			productType = "com.apple.product-type.application";
@@ -147,8 +144,6 @@
 				3D36F5982D779FC900FBF5E5 /* qatrainingappTests */,
 			);
 			name = qatrainingappTests;
-			packageProductDependencies = (
-			);
 			productName = qatrainingappTests;
 			productReference = 3D36F5952D779FC900FBF5E5 /* qatrainingappTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -158,7 +153,6 @@
 			buildConfigurationList = 3D36F5B02D779FCA00FBF5E5 /* Build configuration list for PBXNativeTarget "qatrainingappUITests" */;
 			buildPhases = (
 				3D36F59B2D779FCA00FBF5E5 /* Sources */,
-				3D36F59C2D779FCA00FBF5E5 /* Frameworks */,
 				3D36F59D2D779FCA00FBF5E5 /* Resources */,
 			);
 			buildRules = (
@@ -170,8 +164,6 @@
 				3D36F5A22D779FCA00FBF5E5 /* qatrainingappUITests */,
 			);
 			name = qatrainingappUITests;
-			packageProductDependencies = (
-			);
 			productName = qatrainingappUITests;
 			productReference = 3D36F59F2D779FCA00FBF5E5 /* qatrainingappUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -208,6 +200,8 @@
 			);
 			mainGroup = 3D36F5762D779FC600FBF5E5;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3D36F5802D779FC600FBF5E5 /* Products */;
 			projectDirPath = "";
@@ -289,7 +283,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = WJ5CH25BP2;
+				DEVELOPMENT_TEAM = YFJ2KW4CAR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = qatrainingapp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -297,6 +291,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -317,7 +312,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = WJ5CH25BP2;
+				DEVELOPMENT_TEAM = YFJ2KW4CAR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = qatrainingapp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -325,6 +320,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
