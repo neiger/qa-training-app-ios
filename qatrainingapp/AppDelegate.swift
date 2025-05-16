@@ -10,7 +10,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        window = UIWindow(frame: UIScreen.main.bounds)
+        window = MonitoringWindow(frame: UIScreen.main.bounds) // 👈 updated here
         window?.rootViewController = LoginViewController()
         window?.makeKeyAndVisible()
         return true

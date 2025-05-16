@@ -3,27 +3,38 @@ import Foundation
 class LoginViewModel {
     var username: String = ""
     var password: String = ""
+    
+    private(set) var cachedUsers: [User]? = nil
+
+    init() {
+        preloadUsers()
+    }
+
+    private func preloadUsers() {
+        DispatchQueue.global(qos: .utility).async {
+            self.cachedUsers = loadUsersFromJSON()
+        }
+    }
 
     func login(completion: @escaping (Bool) -> Void) {
-        // Load users from the JSON file
-        if let users = loadUsersFromJSON() {
-            // Check if the entered credentials match any user
-            if let user = users.first(where: { $0.username == username && $0.password == password }) {
-                completion(true)
-                return
+        DispatchQueue.global(qos: .userInitiated).async {
+            let users = self.cachedUsers ?? loadUsersFromJSON()
+            let matchedUser = users?.first { $0.username == self.username && $0.password == self.password }
+            DispatchQueue.main.async {
+                completion(matchedUser != nil)
             }
         }
-        completion(false)
     }
 
     func registerNewUser(name: String, username: String, password: String) {
         var users = loadUsersFromJSON() ?? []
-
-        // Create a new user and append it to the array
         let newUser = User(name: name, username: username, password: password)
         users.append(newUser)
-
-        // Save the updated list of users back to the JSON file
         saveUsersToJSON(users: users)
+        
+        // Update the cached list so login sees the new user
+        self.cachedUsers = users
     }
+
 }
+

@@ -2,6 +2,10 @@ import UIKit
 
 class RegisterViewController: UIViewController {
     
+    // Injected from LoginViewController
+    var loginViewModel: LoginViewModel!
+
+    
     // UI elements
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -47,7 +51,7 @@ class RegisterViewController: UIViewController {
     private let registerButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Register", for: .normal)
-        button.backgroundColor = UIColor(red: 0/255, green: 128/255, blue: 128/255, alpha: 1) // Teal color
+        button.backgroundColor = UIColor(red: 0/255, green: 128/255, blue: 128/255, alpha: 1)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 8
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -67,18 +71,13 @@ class RegisterViewController: UIViewController {
     private let backButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Back", for: .normal)
-        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    // ViewModel
-    private let viewModel = RegisterViewModel()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Add subviews
         view.addSubview(titleLabel)
         view.addSubview(nameTextField)
         view.addSubview(usernameTextField)
@@ -87,73 +86,68 @@ class RegisterViewController: UIViewController {
         view.addSubview(errorLabel)
         view.addSubview(backButton)
         
-        // Set background color
         view.backgroundColor = UIColor(red: 60/255, green: 77/255, blue: 103/255, alpha: 1.0)
         
         setupConstraints()
         
-        // Register button action
         registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         
-        // Add tap gesture recognizer to dismiss keyboard when tapping outside
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
+        
+        // 👇 Start inactivity timer
+        InactivityManager.shared.onTimeout = { [weak self] in
+            DispatchQueue.main.async {
+                self?.logoutDueToInactivity()
+            }
+        }
+        InactivityManager.shared.start()
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            // Back button at top left
             backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             
-            // Title centered at the top
             titleLabel.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: 40),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            // Name text field
             nameTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 40),
             nameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             nameTextField.widthAnchor.constraint(equalToConstant: 250),
             nameTextField.heightAnchor.constraint(equalToConstant: 40),
             
-            // Username text field
             usernameTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 20),
             usernameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             usernameTextField.widthAnchor.constraint(equalTo: nameTextField.widthAnchor),
             usernameTextField.heightAnchor.constraint(equalTo: nameTextField.heightAnchor),
             
-            // Password text field
             passwordTextField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor, constant: 20),
             passwordTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             passwordTextField.widthAnchor.constraint(equalTo: nameTextField.widthAnchor),
             passwordTextField.heightAnchor.constraint(equalTo: nameTextField.heightAnchor),
             
-            // Register button
             registerButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 30),
             registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             registerButton.widthAnchor.constraint(equalTo: nameTextField.widthAnchor),
             registerButton.heightAnchor.constraint(equalToConstant: 40),
             
-            // Error label
             errorLabel.topAnchor.constraint(equalTo: registerButton.bottomAnchor, constant: 15),
             errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            errorLabel.widthAnchor.constraint(equalTo: nameTextField.widthAnchor),
-            
+            errorLabel.widthAnchor.constraint(equalTo: nameTextField.widthAnchor)
         ])
     }
     
     @objc func registerButtonTapped() {
-        // Validate input using ViewModel
-        if !viewModel.validateInput(name: nameTextField.text, username: usernameTextField.text, password: passwordTextField.text) {
+        guard let name = nameTextField.text, !name.isEmpty,
+              let username = usernameTextField.text, !username.isEmpty,
+              let password = passwordTextField.text, !password.isEmpty else {
             errorLabel.text = "All fields are required."
             return
         }
         
-        // Save user data using ViewModel
-        let newUser = User(name: nameTextField.text!, username: usernameTextField.text!, password: passwordTextField.text!)
-        viewModel.saveUserToJSON(user: newUser)
-        
-        // Go back to login screen (dismiss register view)
+        loginViewModel.registerNewUser(name: name, username: username, password: password)
         dismiss(animated: true, completion: nil)
     }
     
@@ -163,5 +157,12 @@ class RegisterViewController: UIViewController {
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    private func logoutDueToInactivity() {
+        InactivityManager.shared.stop()
+        let loginVC = LoginViewController()
+        loginVC.modalPresentationStyle = .fullScreen
+        present(loginVC, animated: true, completion: nil)
     }
 }

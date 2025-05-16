@@ -2,9 +2,9 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
-    private let viewModel = LoginViewModel() // ViewModel instance
+    private let viewModel = LoginViewModel()
 
-    // UI Components (same as before)
+    // UI Components
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "QA Training App"
@@ -39,7 +39,7 @@ class LoginViewController: UIViewController {
     private let loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Login", for: .normal)
-        button.backgroundColor = UIColor(red: 0/255, green: 128/255, blue: 128/255, alpha: 1) // Teal color
+        button.backgroundColor = UIColor(red: 0/255, green: 128/255, blue: 128/255, alpha: 1)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 8
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -49,7 +49,7 @@ class LoginViewController: UIViewController {
     private let registerButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Register", for: .normal)
-        button.backgroundColor = UIColor(red: 0/255, green: 128/255, blue: 128/255, alpha: 1) // Same teal color
+        button.backgroundColor = UIColor(red: 0/255, green: 128/255, blue: 128/255, alpha: 1)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 8
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -58,25 +58,21 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = UIColor(red: 60/255, green: 77/255, blue: 103/255, alpha: 1.0)
-        
-        copyJSONFileToDocumentsDirectory()
-        
-        // Add subviews
+
+        copyJSONFileToDocumentsDirectoryAsync()
+
         view.addSubview(titleLabel)
         view.addSubview(usernameTextField)
         view.addSubview(passwordTextField)
         view.addSubview(loginButton)
         view.addSubview(registerButton)
-        
+
         setupConstraints()
-        
-        // Button actions
+
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
-        
-        // Add tap gesture recognizer to dismiss keyboard when tapping outside
+
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
     }
@@ -113,51 +109,44 @@ class LoginViewController: UIViewController {
         viewModel.password = passwordTextField.text ?? ""
 
         viewModel.login { success in
-            DispatchQueue.main.async {
-                if success {
-                    print("Login successful")
-                    let homeVC = HomeViewController()
-                    homeVC.modalPresentationStyle = .fullScreen
-                    self.present(homeVC, animated: true, completion: nil)
-                } else {
-                    print("Invalid credentials")
-                    self.showAlert(message: "Invalid username or password")
-                }
+            if success {
+                print("Login successful")
+                let homeVC = HomeViewController()
+                homeVC.loginViewModel = self.viewModel // needed in the homecontroller
+                homeVC.modalPresentationStyle = .fullScreen
+                self.present(homeVC, animated: true, completion: nil)
+            } else {
+                print("Invalid credentials")
+                self.showAlert(message: "Invalid username or password")
             }
         }
     }
-    
+
     @objc func registerButtonTapped() {
-        print("Register button tapped")
-        
-        // Initialize the RegisterViewController
         let registerVC = RegisterViewController()
-        
-        // Set the modal presentation style
         registerVC.modalPresentationStyle = .fullScreen
-        
-        // Present the RegisterViewController
+        registerVC.loginViewModel = self.viewModel  // inject the same instance
         present(registerVC, animated: true, completion: nil)
     }
-
 
     private func showAlert(message: String) {
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
-    
+
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-    
-    func copyJSONFileToDocumentsDirectory() {
-        let fileManager = FileManager.default
-        let documentsDirectory = try! fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-        let destinationURL = documentsDirectory.appendingPathComponent("admin_config.json")
 
-        if !fileManager.fileExists(atPath: destinationURL.path) {
-            if let sourceURL = Bundle.main.url(forResource: "admin_config", withExtension: "json") {
+    func copyJSONFileToDocumentsDirectoryAsync() {
+        DispatchQueue.global(qos: .utility).async {
+            let fileManager = FileManager.default
+            guard let documentsDirectory = try? fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) else { return }
+            let destinationURL = documentsDirectory.appendingPathComponent("admin_config.json")
+
+            if !fileManager.fileExists(atPath: destinationURL.path),
+               let sourceURL = Bundle.main.url(forResource: "admin_config", withExtension: "json") {
                 do {
                     try fileManager.copyItem(at: sourceURL, to: destinationURL)
                     print("File copied to documents directory")
@@ -169,12 +158,11 @@ class LoginViewController: UIViewController {
     }
 }
 
-// UITextField Extension for padding
+// Padding extension remains unchanged
 extension UITextField {
     func setLeftPaddingPoints(_ amount: CGFloat) {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.height))
         self.leftView = paddingView
         self.leftViewMode = .always
     }
-
 }
