@@ -24,6 +24,17 @@ class HomeViewController: UIViewController {
         return button
     }()
 
+    // UI Components
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "QA Training App"
+        label.textColor = .white
+        label.font = UIFont.boldSystemFont(ofSize: 28)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private let calculatorButton = HomeViewController.createMenuButton(title: "Calculator")
     private let registerButton = HomeViewController.createMenuButton(title: "Register")
     private let logoutButton = HomeViewController.createMenuButton(title: "Log Out")
@@ -49,6 +60,13 @@ class HomeViewController: UIViewController {
 
         setupDrawer()
         setupMenuActions()
+        view.addSubview(titleLabel)
+
+        // Add constraints to center the titleLabel horizontally and pin it to top safe area
+        NSLayoutConstraint.activate([
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
 
         // Inactivity Timer
         InactivityManager.shared.onTimeout = { [weak self] in
@@ -114,16 +132,11 @@ class HomeViewController: UIViewController {
 
     @objc private func openCalculator() {
         toggleDrawer()
-        
-        let alert = UIAlertController(title: nil, message: "Calculator tapped (placeholder)", preferredStyle: .alert)
-        self.present(alert, animated: true)
 
-        // Dismiss after 1.5 seconds like a toast
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            alert.dismiss(animated: true, completion: nil)
-        }
+        let calculatorVC = CalculatorViewController()
+        calculatorVC.modalPresentationStyle = .fullScreen
+        present(calculatorVC, animated: true, completion: nil)
     }
-
 
     @objc private func openRegister() {
         toggleDrawer()
