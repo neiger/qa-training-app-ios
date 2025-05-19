@@ -8,14 +8,15 @@ struct User: Codable {
 
 func loadUsersFromJSON() -> [User]? {
     let fileManager = FileManager.default
-    let documentsDirectory = try! fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+    guard let documentsDirectory = try? fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) else {
+        return nil
+    }
+    
     let fileURL = documentsDirectory.appendingPathComponent("admin_config.json")
     
     do {
         let data = try Data(contentsOf: fileURL)
-        let decoder = JSONDecoder()
-        let users = try decoder.decode([User].self, from: data)
-        return users
+        return try JSONDecoder().decode([User].self, from: data)
     } catch {
         print("Error reading JSON file: \(error)")
         return nil
@@ -24,7 +25,8 @@ func loadUsersFromJSON() -> [User]? {
 
 func saveUsersToJSON(users: [User]) {
     let fileManager = FileManager.default
-    let documentsDirectory = try! fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+    guard let documentsDirectory = try? fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) else { return }
+    
     let fileURL = documentsDirectory.appendingPathComponent("admin_config.json")
     
     do {
@@ -35,3 +37,4 @@ func saveUsersToJSON(users: [User]) {
         print("Error saving to JSON file: \(error)")
     }
 }
+
