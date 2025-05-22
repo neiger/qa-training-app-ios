@@ -1,10 +1,9 @@
 //
-//  CalculatorAction.swift
+//  CalculatorViewModel.swift
 //  qatrainingapp
 //
 //  Created by Neiger Serrano on 19/5/25.
 //
-
 
 import Foundation
 
@@ -62,7 +61,7 @@ final class CalculatorViewModel {
 
         valueTwo = parseInput()
 
-        if currentAction == .divide && valueTwo == 0.0 {
+        if currentAction == .divide, valueTwo == 0.0 {
             output = "Error: Divide by 0"
         } else {
             performOperation()

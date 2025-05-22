@@ -11,9 +11,9 @@ func loadUsersFromJSON() -> [User]? {
     guard let documentsDirectory = try? fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) else {
         return nil
     }
-    
+
     let fileURL = documentsDirectory.appendingPathComponent("admin_config.json")
-    
+
     do {
         let data = try Data(contentsOf: fileURL)
         return try JSONDecoder().decode([User].self, from: data)
@@ -26,9 +26,9 @@ func loadUsersFromJSON() -> [User]? {
 func saveUsersToJSON(users: [User]) {
     let fileManager = FileManager.default
     guard let documentsDirectory = try? fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) else { return }
-    
+
     let fileURL = documentsDirectory.appendingPathComponent("admin_config.json")
-    
+
     do {
         let encoder = JSONEncoder()
         let data = try encoder.encode(users)
@@ -37,4 +37,3 @@ func saveUsersToJSON(users: [User]) {
         print("Error saving to JSON file: \(error)")
     }
 }
-

@@ -5,9 +5,9 @@
 ////  Created by Neiger Serrano on 4/3/25.
 ////
 //
-//import UIKit
+// import UIKit
 //
-//class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+// class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //
 //    var window: UIWindow?
 //
@@ -48,24 +48,24 @@
 //    }
 //
 //
-//}
+// }
 //
 import UIKit
 
-//class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-//    
+// class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+//
 //    var window: UIWindow?
-//    
+//
 //    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 //        guard let _ = (scene as? UIWindowScene) else { return }
 //    }
-//}
+// }
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+    func scene(_ scene: UIScene, willConnectTo _: UISceneSession, options _: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
+
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = LoginViewController()
         window?.makeKeyAndVisible()

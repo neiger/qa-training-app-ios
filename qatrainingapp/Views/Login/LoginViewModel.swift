@@ -3,8 +3,8 @@ import Foundation
 class LoginViewModel {
     var username: String = ""
     var password: String = ""
-    
-    private(set) var cachedUsers: [User]? = nil
+
+    private(set) var cachedUsers: [User]?
 
     init() {
         preloadUsers()
@@ -31,10 +31,8 @@ class LoginViewModel {
         let newUser = User(name: name, username: username, password: password)
         users.append(newUser)
         saveUsersToJSON(users: users)
-        
+
         // Update the cached list so login sees the new user
-        self.cachedUsers = users
+        cachedUsers = users
     }
-
 }
-

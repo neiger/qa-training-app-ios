@@ -4,7 +4,7 @@ class InactivityManager {
     static let shared = InactivityManager()
 
     private var timer: Timer?
-    private let timeout: TimeInterval = 300  // 5 minutes
+    private let timeout: TimeInterval = 300 // 5 minutes
     var onTimeout: (() -> Void)?
 
     func start() {

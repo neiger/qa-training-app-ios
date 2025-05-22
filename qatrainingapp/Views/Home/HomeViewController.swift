@@ -1,7 +1,6 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-
     // MARK: - UI Components
 
     private let drawerWidth: CGFloat = 250
@@ -34,7 +33,7 @@ class HomeViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private let calculatorButton = HomeViewController.createMenuButton(title: "Calculator")
     private let registerButton = HomeViewController.createMenuButton(title: "Register")
     private let logoutButton = HomeViewController.createMenuButton(title: "Log Out")
@@ -56,7 +55,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor(red: 60/255, green: 77/255, blue: 103/255, alpha: 1.0)
+        view.backgroundColor = UIColor(red: 60 / 255, green: 77 / 255, blue: 103 / 255, alpha: 1.0)
 
         setupDrawer()
         setupMenuActions()
@@ -65,7 +64,7 @@ class HomeViewController: UIViewController {
         // Add constraints to center the titleLabel horizontally and pin it to top safe area
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            titleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
 
         // Inactivity Timer
@@ -92,7 +91,7 @@ class HomeViewController: UIViewController {
             drawerLeadingConstraint,
             drawerView.topAnchor.constraint(equalTo: view.topAnchor),
             drawerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            drawerView.widthAnchor.constraint(equalToConstant: drawerWidth)
+            drawerView.widthAnchor.constraint(equalToConstant: drawerWidth),
         ])
 
         drawerView.addSubview(calculatorButton)
@@ -107,7 +106,7 @@ class HomeViewController: UIViewController {
             registerButton.leadingAnchor.constraint(equalTo: calculatorButton.leadingAnchor),
 
             logoutButton.topAnchor.constraint(equalTo: registerButton.bottomAnchor, constant: 30),
-            logoutButton.leadingAnchor.constraint(equalTo: calculatorButton.leadingAnchor)
+            logoutButton.leadingAnchor.constraint(equalTo: calculatorButton.leadingAnchor),
         ])
 
         menuButton.addTarget(self, action: #selector(toggleDrawer), for: .touchUpInside)
@@ -141,7 +140,7 @@ class HomeViewController: UIViewController {
     @objc private func openRegister() {
         toggleDrawer()
         let registerVC = RegisterViewController()
-        registerVC.loginViewModel = self.loginViewModel
+        registerVC.loginViewModel = loginViewModel
         registerVC.modalPresentationStyle = .fullScreen
         present(registerVC, animated: true, completion: nil)
     }

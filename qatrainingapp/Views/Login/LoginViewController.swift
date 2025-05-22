@@ -1,7 +1,6 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-    
     private let viewModel = LoginViewModel()
 
     // UI Components
@@ -39,17 +38,17 @@ class LoginViewController: UIViewController {
     private let loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Login", for: .normal)
-        button.backgroundColor = UIColor(red: 0/255, green: 128/255, blue: 128/255, alpha: 1)
+        button.backgroundColor = UIColor(red: 0 / 255, green: 128 / 255, blue: 128 / 255, alpha: 1)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 8
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     private let registerButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Register", for: .normal)
-        button.backgroundColor = UIColor(red: 0/255, green: 128/255, blue: 128/255, alpha: 1)
+        button.backgroundColor = UIColor(red: 0 / 255, green: 128 / 255, blue: 128 / 255, alpha: 1)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 8
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -58,7 +57,7 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 60/255, green: 77/255, blue: 103/255, alpha: 1.0)
+        view.backgroundColor = UIColor(red: 60 / 255, green: 77 / 255, blue: 103 / 255, alpha: 1.0)
 
         copyJSONFileToDocumentsDirectoryAsync()
 
@@ -96,11 +95,11 @@ class LoginViewController: UIViewController {
             loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loginButton.widthAnchor.constraint(equalTo: usernameTextField.widthAnchor),
             loginButton.heightAnchor.constraint(equalToConstant: 40),
-            
+
             registerButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 10),
             registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             registerButton.widthAnchor.constraint(equalTo: usernameTextField.widthAnchor),
-            registerButton.heightAnchor.constraint(equalToConstant: 40)
+            registerButton.heightAnchor.constraint(equalToConstant: 40),
         ])
     }
 
@@ -125,7 +124,7 @@ class LoginViewController: UIViewController {
     @objc func registerButtonTapped() {
         let registerVC = RegisterViewController()
         registerVC.modalPresentationStyle = .fullScreen
-        registerVC.loginViewModel = self.viewModel  // inject the same instance
+        registerVC.loginViewModel = viewModel // inject the same instance
         present(registerVC, animated: true, completion: nil)
     }
 
@@ -146,7 +145,8 @@ class LoginViewController: UIViewController {
             let destinationURL = documentsDirectory.appendingPathComponent("admin_config.json")
 
             if !fileManager.fileExists(atPath: destinationURL.path),
-               let sourceURL = Bundle.main.url(forResource: "admin_config", withExtension: "json") {
+               let sourceURL = Bundle.main.url(forResource: "admin_config", withExtension: "json")
+            {
                 do {
                     try fileManager.copyItem(at: sourceURL, to: destinationURL)
                     print("File copied to documents directory")
@@ -161,8 +161,8 @@ class LoginViewController: UIViewController {
 // Padding extension remains unchanged
 extension UITextField {
     func setLeftPaddingPoints(_ amount: CGFloat) {
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.height))
-        self.leftView = paddingView
-        self.leftViewMode = .always
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: frame.height))
+        leftView = paddingView
+        leftViewMode = .always
     }
 }

@@ -5,12 +5,10 @@
 //  Created by Neiger Serrano on 19/5/25.
 //
 
-
-import UIKit
 import Combine
+import UIKit
 
 final class CalculatorViewController: UIViewController {
-
     private let viewModel = CalculatorViewModel()
     private var cancellables = Set<AnyCancellable>()
 
@@ -51,17 +49,16 @@ final class CalculatorViewController: UIViewController {
          ("+", { self.viewModel.setOperation(.add) })],
         [("0", { self.viewModel.handleInput("0") }),
          (".", { self.viewModel.handleInput(".") }),
-         ("=", { self.viewModel.calculate() })]
+         ("=", { self.viewModel.calculate() })],
     ]
 
-    
     private let backButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Back", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
@@ -87,12 +84,12 @@ final class CalculatorViewController: UIViewController {
         NSLayoutConstraint.activate([
             backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
             backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            
+
             outputLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
             outputLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
 
             inputLabel.topAnchor.constraint(equalTo: outputLabel.bottomAnchor, constant: 12),
-            inputLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
+            inputLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
         ])
     }
 
@@ -131,7 +128,7 @@ final class CalculatorViewController: UIViewController {
         NSLayoutConstraint.activate([
             buttonStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             buttonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-            buttonStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24)
+            buttonStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24),
         ])
     }
 
@@ -148,20 +145,18 @@ final class CalculatorViewController: UIViewController {
             .assign(to: \.text, on: outputLabel)
             .store(in: &cancellables)
     }
-    
+
     @objc func logout() {
         InactivityManager.shared.stop()
         let loginVC = LoginViewController()
         loginVC.modalPresentationStyle = .fullScreen
         present(loginVC, animated: true, completion: nil)
     }
-    
+
     @objc func backButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
-
 }
-
 
 private extension String {
     var isOperator: Bool {
