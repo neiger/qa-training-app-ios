@@ -72,7 +72,7 @@ class HomeViewController: UIViewController {
     /// UI Components
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "QA Training App"
+        label.text = "QA Training App!"
         label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 28)
         label.textAlignment = .center
