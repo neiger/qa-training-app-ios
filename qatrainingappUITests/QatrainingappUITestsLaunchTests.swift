@@ -1,5 +1,5 @@
 //
-//  qatrainingappUITestsLaunchTests.swift
+//  QatrainingappUITestsLaunchTests.swift
 //  qatrainingappUITests
 //
 //  Created by Neiger Serrano on 4/3/25.
