@@ -1,12 +1,57 @@
 import UIKit
 
 class HomeViewController: UIViewController {
+    // MARK: Internal
+
+    var loginViewModel: LoginViewModel!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        view.backgroundColor = UIColor(red: 60 / 255, green: 77 / 255, blue: 103 / 255, alpha: 1.0)
+
+        setupDrawer()
+        setupMenuActions()
+        view.addSubview(titleLabel)
+
+        // Add constraints to center the titleLabel horizontally and pin it to top safe area
+        NSLayoutConstraint.activate([
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
+
+        // Inactivity Timer
+        InactivityManager.shared.onTimeout = { [weak self] in
+            DispatchQueue.main.async {
+                self?.logout()
+            }
+        }
+        InactivityManager.shared.start()
+    }
+
+    static func createMenuButton(title: String) -> UIButton {
+        let button = UIButton(type: .system)
+        button.setTitle(title, for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.contentHorizontalAlignment = .left
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }
+
+    @objc func logout() {
+        InactivityManager.shared.stop()
+        let loginVC = LoginViewController()
+        loginVC.modalPresentationStyle = .fullScreen
+        present(loginVC, animated: true, completion: nil)
+    }
+
+    // MARK: Private
 
     // MARK: - UI Components
 
     private let drawerWidth: CGFloat = 250
     private var isDrawerOpen = false
-    var loginViewModel: LoginViewModel!
 
     private let drawerView: UIView = {
         let view = UIView()
@@ -24,7 +69,7 @@ class HomeViewController: UIViewController {
         return button
     }()
 
-    // UI Components
+    /// UI Components
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "QA Training App"
@@ -34,48 +79,12 @@ class HomeViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    private let calculatorButton = HomeViewController.createMenuButton(title: "Calculator")
-    private let registerButton = HomeViewController.createMenuButton(title: "Register")
-    private let logoutButton = HomeViewController.createMenuButton(title: "Log Out")
+
+    private let calculatorButton: HomeViewController = .createMenuButton(title: "Calculator")
+    private let registerButton: HomeViewController = .createMenuButton(title: "Register")
+    private let logoutButton: HomeViewController = .createMenuButton(title: "Log Out")
 
     private var drawerLeadingConstraint: NSLayoutConstraint!
-
-    static func createMenuButton(title: String) -> UIButton {
-        let button = UIButton(type: .system)
-        button.setTitle(title, for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.contentHorizontalAlignment = .left
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }
-
-    // MARK: - Lifecycle
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        view.backgroundColor = UIColor(red: 60/255, green: 77/255, blue: 103/255, alpha: 1.0)
-
-        setupDrawer()
-        setupMenuActions()
-        view.addSubview(titleLabel)
-
-        // Add constraints to center the titleLabel horizontally and pin it to top safe area
-        NSLayoutConstraint.activate([
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-
-        // Inactivity Timer
-        InactivityManager.shared.onTimeout = { [weak self] in
-            DispatchQueue.main.async {
-                self?.logout()
-            }
-        }
-        InactivityManager.shared.start()
-    }
 
     // MARK: - Drawer Setup
 
@@ -83,7 +92,10 @@ class HomeViewController: UIViewController {
         view.addSubview(drawerView)
         view.addSubview(menuButton)
 
-        drawerLeadingConstraint = drawerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -drawerWidth)
+        drawerLeadingConstraint = drawerView.leadingAnchor.constraint(
+            equalTo: view.leadingAnchor,
+            constant: -drawerWidth
+        )
 
         NSLayoutConstraint.activate([
             menuButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
@@ -92,7 +104,7 @@ class HomeViewController: UIViewController {
             drawerLeadingConstraint,
             drawerView.topAnchor.constraint(equalTo: view.topAnchor),
             drawerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            drawerView.widthAnchor.constraint(equalToConstant: drawerWidth)
+            drawerView.widthAnchor.constraint(equalToConstant: drawerWidth),
         ])
 
         drawerView.addSubview(calculatorButton)
@@ -107,7 +119,7 @@ class HomeViewController: UIViewController {
             registerButton.leadingAnchor.constraint(equalTo: calculatorButton.leadingAnchor),
 
             logoutButton.topAnchor.constraint(equalTo: registerButton.bottomAnchor, constant: 30),
-            logoutButton.leadingAnchor.constraint(equalTo: calculatorButton.leadingAnchor)
+            logoutButton.leadingAnchor.constraint(equalTo: calculatorButton.leadingAnchor),
         ])
 
         menuButton.addTarget(self, action: #selector(toggleDrawer), for: .touchUpInside)
@@ -141,15 +153,8 @@ class HomeViewController: UIViewController {
     @objc private func openRegister() {
         toggleDrawer()
         let registerVC = RegisterViewController()
-        registerVC.loginViewModel = self.loginViewModel
+        registerVC.loginViewModel = loginViewModel
         registerVC.modalPresentationStyle = .fullScreen
         present(registerVC, animated: true, completion: nil)
-    }
-
-    @objc func logout() {
-        InactivityManager.shared.stop()
-        let loginVC = LoginViewController()
-        loginVC.modalPresentationStyle = .fullScreen
-        present(loginVC, animated: true, completion: nil)
     }
 }

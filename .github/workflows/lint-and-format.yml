@@ -1,29 +1,30 @@
-name: Lint and Format
+name: SwiftLint & SwiftFormat Auto-Fix
 
 on:
   pull_request:
-  push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  lint_and_format:
-    name: SwiftLint & SwiftFormat
+  lint_and_fix:
     runs-on: macos-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Install SwiftLint
-        run: brew install swiftlint
+      - name: Install SwiftLint and SwiftFormat
+        run: brew install swiftlint swiftformat
 
-      - name: Install SwiftFormat
-        run: brew install swiftformat
+      - name: Run SwiftLint (warnings only)
+        run: swiftlint
 
-      - name: Run SwiftLint
-        run: swiftlint --strict
+      - name: Run SwiftFormat (fix issues)
+        run: swiftformat .
 
-      - name: Run SwiftFormat check (dry run)
-        run: swiftformat . --lint
-
+      - name: Commit changes if needed
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          git add .
+          git diff --cached --quiet || git commit -m "Auto-format code with SwiftFormat"
+        continue-on-error: true

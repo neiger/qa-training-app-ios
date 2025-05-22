@@ -1,12 +1,13 @@
 //
-//  CalculatorAction.swift
+//  CalculatorViewModel.swift
 //  qatrainingapp
 //
 //  Created by Neiger Serrano on 19/5/25.
 //
 
-
 import Foundation
+
+// MARK: - CalculatorAction
 
 enum CalculatorAction: Character {
     case add = "+"
@@ -17,13 +18,13 @@ enum CalculatorAction: Character {
     case none = " "
 }
 
+// MARK: - CalculatorViewModel
+
 final class CalculatorViewModel {
+    // MARK: Internal
+
     @Published private(set) var input: String = ""
     @Published private(set) var output: String = ""
-
-    private var valueOne = Double.nan
-    private var valueTwo = 0.0
-    private var currentAction: CalculatorAction = .none
 
     func handleInput(_ inputValue: String) {
         input += inputValue
@@ -39,7 +40,10 @@ final class CalculatorViewModel {
     }
 
     func toggleSign() {
-        guard let current = Double(input) else { return }
+        guard let current = Double(input) else {
+            return
+        }
+
         let toggled = -current
         input = String(toggled).trimmingCharacters(in: CharacterSet(charactersIn: ".0"))
     }
@@ -58,11 +62,13 @@ final class CalculatorViewModel {
     }
 
     func calculate() {
-        guard currentAction != .none else { return }
+        guard currentAction != .none else {
+            return
+        }
 
         valueTwo = parseInput()
 
-        if currentAction == .divide && valueTwo == 0.0 {
+        if currentAction == .divide, valueTwo == 0.0 {
             output = "Error: Divide by 0"
         } else {
             performOperation()
@@ -71,6 +77,12 @@ final class CalculatorViewModel {
             currentAction = .none
         }
     }
+
+    // MARK: Private
+
+    private var valueOne: Double = .nan
+    private var valueTwo = 0.0
+    private var currentAction: CalculatorAction = .none
 
     private func parseInput() -> Double {
         Double(input) ?? 0.0

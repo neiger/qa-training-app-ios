@@ -1,7 +1,7 @@
-//import Foundation
+// import Foundation
 //
-//class RegisterViewModel {
-//    
+// class RegisterViewModel {
+//
 //    // Validation function
 //    func validateInput(name: String?, username: String?, password: String?) -> Bool {
 //        guard let name = name, !name.isEmpty,
@@ -11,7 +11,7 @@
 //        }
 //        return true
 //    }
-//    
+//
 //    // Save user data to JSON
 //    func saveUserToJSON(user: User) {
 //        let fileURL = getDocumentsDirectory().appendingPathComponent("admin_config.json")
@@ -38,9 +38,9 @@
 //        }
 //    }
 //
-//    
+//
 //    private func getDocumentsDirectory() -> URL {
 //        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
 //        return paths[0]
 //    }
-//}
+// }
