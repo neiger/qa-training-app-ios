@@ -1,10 +1,65 @@
 import UIKit
 
 class RegisterViewController: UIViewController {
-    // Injected from LoginViewController
+    // MARK: Internal
+
+    /// Injected from LoginViewController
     var loginViewModel: LoginViewModel!
 
-    // UI elements
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        view.addSubview(titleLabel)
+        view.addSubview(nameTextField)
+        view.addSubview(usernameTextField)
+        view.addSubview(passwordTextField)
+        view.addSubview(registerButton)
+        view.addSubview(errorLabel)
+        view.addSubview(backButton)
+
+        view.backgroundColor = UIColor(red: 60 / 255, green: 77 / 255, blue: 103 / 255, alpha: 1.0)
+
+        setupConstraints()
+
+        registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+
+        // 👇 Start inactivity timer
+        InactivityManager.shared.onTimeout = { [weak self] in
+            DispatchQueue.main.async {
+                self?.logoutDueToInactivity()
+            }
+        }
+        InactivityManager.shared.start()
+    }
+
+    @objc func registerButtonTapped() {
+        guard let name = nameTextField.text, !name.isEmpty,
+              let username = usernameTextField.text, !username.isEmpty,
+              let password = passwordTextField.text, !password.isEmpty
+        else {
+            errorLabel.text = "All fields are required."
+            return
+        }
+
+        loginViewModel.registerNewUser(name: name, username: username, password: password)
+        dismiss(animated: true, completion: nil)
+    }
+
+    @objc func backButtonTapped() {
+        dismiss(animated: true, completion: nil)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
+    // MARK: Private
+
+    /// UI elements
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "New User Registration"
@@ -73,36 +128,6 @@ class RegisterViewController: UIViewController {
         return button
     }()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        view.addSubview(titleLabel)
-        view.addSubview(nameTextField)
-        view.addSubview(usernameTextField)
-        view.addSubview(passwordTextField)
-        view.addSubview(registerButton)
-        view.addSubview(errorLabel)
-        view.addSubview(backButton)
-
-        view.backgroundColor = UIColor(red: 60 / 255, green: 77 / 255, blue: 103 / 255, alpha: 1.0)
-
-        setupConstraints()
-
-        registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
-        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tapGesture)
-
-        // 👇 Start inactivity timer
-        InactivityManager.shared.onTimeout = { [weak self] in
-            DispatchQueue.main.async {
-                self?.logoutDueToInactivity()
-            }
-        }
-        InactivityManager.shared.start()
-    }
-
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -135,27 +160,6 @@ class RegisterViewController: UIViewController {
             errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             errorLabel.widthAnchor.constraint(equalTo: nameTextField.widthAnchor),
         ])
-    }
-
-    @objc func registerButtonTapped() {
-        guard let name = nameTextField.text, !name.isEmpty,
-              let username = usernameTextField.text, !username.isEmpty,
-              let password = passwordTextField.text, !password.isEmpty
-        else {
-            errorLabel.text = "All fields are required."
-            return
-        }
-
-        loginViewModel.registerNewUser(name: name, username: username, password: password)
-        dismiss(animated: true, completion: nil)
-    }
-
-    @objc func backButtonTapped() {
-        dismiss(animated: true, completion: nil)
-    }
-
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
     }
 
     private func logoutDueToInactivity() {

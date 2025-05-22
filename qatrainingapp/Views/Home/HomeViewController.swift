@@ -1,56 +1,9 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-    // MARK: - UI Components
+    // MARK: Internal
 
-    private let drawerWidth: CGFloat = 250
-    private var isDrawerOpen = false
     var loginViewModel: LoginViewModel!
-
-    private let drawerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .darkGray
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-
-    private let menuButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("☰", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 24)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-
-    // UI Components
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "QA Training App"
-        label.textColor = .white
-        label.font = UIFont.boldSystemFont(ofSize: 28)
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let calculatorButton = HomeViewController.createMenuButton(title: "Calculator")
-    private let registerButton = HomeViewController.createMenuButton(title: "Register")
-    private let logoutButton = HomeViewController.createMenuButton(title: "Log Out")
-
-    private var drawerLeadingConstraint: NSLayoutConstraint!
-
-    static func createMenuButton(title: String) -> UIButton {
-        let button = UIButton(type: .system)
-        button.setTitle(title, for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.contentHorizontalAlignment = .left
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }
-
-    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,13 +29,73 @@ class HomeViewController: UIViewController {
         InactivityManager.shared.start()
     }
 
+    static func createMenuButton(title: String) -> UIButton {
+        let button = UIButton(type: .system)
+        button.setTitle(title, for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.contentHorizontalAlignment = .left
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }
+
+    @objc func logout() {
+        InactivityManager.shared.stop()
+        let loginVC = LoginViewController()
+        loginVC.modalPresentationStyle = .fullScreen
+        present(loginVC, animated: true, completion: nil)
+    }
+
+    // MARK: Private
+
+    // MARK: - UI Components
+
+    private let drawerWidth: CGFloat = 250
+    private var isDrawerOpen = false
+
+    private let drawerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .darkGray
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    private let menuButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("☰", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 24)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    /// UI Components
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "QA Training App"
+        label.textColor = .white
+        label.font = UIFont.boldSystemFont(ofSize: 28)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private let calculatorButton: HomeViewController = .createMenuButton(title: "Calculator")
+    private let registerButton: HomeViewController = .createMenuButton(title: "Register")
+    private let logoutButton: HomeViewController = .createMenuButton(title: "Log Out")
+
+    private var drawerLeadingConstraint: NSLayoutConstraint!
+
     // MARK: - Drawer Setup
 
     private func setupDrawer() {
         view.addSubview(drawerView)
         view.addSubview(menuButton)
 
-        drawerLeadingConstraint = drawerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -drawerWidth)
+        drawerLeadingConstraint = drawerView.leadingAnchor.constraint(
+            equalTo: view.leadingAnchor,
+            constant: -drawerWidth
+        )
 
         NSLayoutConstraint.activate([
             menuButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
@@ -143,12 +156,5 @@ class HomeViewController: UIViewController {
         registerVC.loginViewModel = loginViewModel
         registerVC.modalPresentationStyle = .fullScreen
         present(registerVC, animated: true, completion: nil)
-    }
-
-    @objc func logout() {
-        InactivityManager.shared.stop()
-        let loginVC = LoginViewController()
-        loginVC.modalPresentationStyle = .fullScreen
-        present(loginVC, animated: true, completion: nil)
     }
 }

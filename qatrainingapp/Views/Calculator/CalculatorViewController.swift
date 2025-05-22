@@ -8,9 +8,43 @@
 import Combine
 import UIKit
 
+// MARK: - CalculatorViewController
+
 final class CalculatorViewController: UIViewController {
-    private let viewModel = CalculatorViewModel()
-    private var cancellables = Set<AnyCancellable>()
+    // MARK: Internal
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .black
+        setupLabels()
+        setupButtons()
+        bindViewModel()
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+
+        // Inactivity Timer
+        InactivityManager.shared.onTimeout = { [weak self] in
+            DispatchQueue.main.async {
+                self?.logout()
+            }
+        }
+        InactivityManager.shared.start()
+    }
+
+    @objc func logout() {
+        InactivityManager.shared.stop()
+        let loginVC = LoginViewController()
+        loginVC.modalPresentationStyle = .fullScreen
+        present(loginVC, animated: true, completion: nil)
+    }
+
+    @objc func backButtonTapped() {
+        dismiss(animated: true, completion: nil)
+    }
+
+    // MARK: Private
+
+    private let viewModel: CalculatorViewModel = .init()
+    private var cancellables: Set<AnyCancellable> = .init()
 
     private let inputLabel: UILabel = {
         let label = UILabel()
@@ -31,25 +65,35 @@ final class CalculatorViewController: UIViewController {
     }()
 
     private lazy var buttons: [[(title: String, action: () -> Void)]] = [
-        [("AC", { self.viewModel.clear() }),
-         ("+/-", { self.viewModel.toggleSign() }),
-         ("%", { self.viewModel.setOperation(.percent) }),
-         ("/", { self.viewModel.setOperation(.divide) })],
-        [("7", { self.viewModel.handleInput("7") }),
-         ("8", { self.viewModel.handleInput("8") }),
-         ("9", { self.viewModel.handleInput("9") }),
-         ("*", { self.viewModel.setOperation(.multiply) })],
-        [("4", { self.viewModel.handleInput("4") }),
-         ("5", { self.viewModel.handleInput("5") }),
-         ("6", { self.viewModel.handleInput("6") }),
-         ("-", { self.viewModel.setOperation(.subtract) })],
-        [("1", { self.viewModel.handleInput("1") }),
-         ("2", { self.viewModel.handleInput("2") }),
-         ("3", { self.viewModel.handleInput("3") }),
-         ("+", { self.viewModel.setOperation(.add) })],
-        [("0", { self.viewModel.handleInput("0") }),
-         (".", { self.viewModel.handleInput(".") }),
-         ("=", { self.viewModel.calculate() })],
+        [
+            ("AC", { self.viewModel.clear() }),
+            ("+/-", { self.viewModel.toggleSign() }),
+            ("%", { self.viewModel.setOperation(.percent) }),
+            ("/", { self.viewModel.setOperation(.divide) }),
+        ],
+        [
+            ("7", { self.viewModel.handleInput("7") }),
+            ("8", { self.viewModel.handleInput("8") }),
+            ("9", { self.viewModel.handleInput("9") }),
+            ("*", { self.viewModel.setOperation(.multiply) }),
+        ],
+        [
+            ("4", { self.viewModel.handleInput("4") }),
+            ("5", { self.viewModel.handleInput("5") }),
+            ("6", { self.viewModel.handleInput("6") }),
+            ("-", { self.viewModel.setOperation(.subtract) }),
+        ],
+        [
+            ("1", { self.viewModel.handleInput("1") }),
+            ("2", { self.viewModel.handleInput("2") }),
+            ("3", { self.viewModel.handleInput("3") }),
+            ("+", { self.viewModel.setOperation(.add) }),
+        ],
+        [
+            ("0", { self.viewModel.handleInput("0") }),
+            (".", { self.viewModel.handleInput(".") }),
+            ("=", { self.viewModel.calculate() }),
+        ],
     ]
 
     private let backButton: UIButton = {
@@ -58,23 +102,6 @@ final class CalculatorViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .black
-        setupLabels()
-        setupButtons()
-        bindViewModel()
-        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-
-        // Inactivity Timer
-        InactivityManager.shared.onTimeout = { [weak self] in
-            DispatchQueue.main.async {
-                self?.logout()
-            }
-        }
-        InactivityManager.shared.start()
-    }
 
     private func setupLabels() {
         view.addSubview(backButton)
@@ -144,17 +171,6 @@ final class CalculatorViewController: UIViewController {
             .map { Optional($0) }
             .assign(to: \.text, on: outputLabel)
             .store(in: &cancellables)
-    }
-
-    @objc func logout() {
-        InactivityManager.shared.stop()
-        let loginVC = LoginViewController()
-        loginVC.modalPresentationStyle = .fullScreen
-        present(loginVC, animated: true, completion: nil)
-    }
-
-    @objc func backButtonTapped() {
-        dismiss(animated: true, completion: nil)
     }
 }
 

@@ -7,7 +7,8 @@
 //    override func viewDidLoad() {
 //        super.viewDidLoad()
 //
-//        NotificationCenter.default.addObserver(self, selector: #selector(sessionTimeout), name: Notification.Name("SessionTimeout"), object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(sessionTimeout), name:
+//        Notification.Name("SessionTimeout"), object: nil)
 //
 //        startSession()
 //    }
@@ -18,7 +19,8 @@
 //
 //    func startSession() {
 //        stopSession()
-//        sessionTimeoutTimer = Timer.scheduledTimer(timeInterval: 600, target: self, selector: #selector(sessionTimeout), userInfo: nil, repeats: false)
+//        sessionTimeoutTimer = Timer.scheduledTimer(timeInterval: 600, target: self, selector:
+//        #selector(sessionTimeout), userInfo: nil, repeats: false)
 //    }
 //
 //    func stopSession() {

@@ -1,0 +1,13 @@
+--rules all
+--exclude Tests
+--swiftversion 5.9
+--stripunusedargs closure-only
+--self remove
+--header ignore
+--maxwidth 120
+--commas always
+--wraparguments beforefirst
+--wrapelements beforefirst
+--indent 4
+--disable redundantReturn, unusedArguments
+--enable modifierOrder, redundantParens

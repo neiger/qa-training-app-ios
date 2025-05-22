@@ -1,10 +1,10 @@
 import Foundation
 
 class InactivityManager {
-    static let shared = InactivityManager()
+    // MARK: Internal
 
-    private var timer: Timer?
-    private let timeout: TimeInterval = 300 // 5 minutes
+    static let shared: InactivityManager = .init()
+
     var onTimeout: (() -> Void)?
 
     func start() {
@@ -22,4 +22,9 @@ class InactivityManager {
         timer?.invalidate()
         timer = nil
     }
+
+    // MARK: Private
+
+    private var timer: Timer?
+    private let timeout: TimeInterval = 300 // 5 minutes
 }

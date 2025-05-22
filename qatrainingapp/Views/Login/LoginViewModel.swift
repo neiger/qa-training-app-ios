@@ -1,20 +1,18 @@
 import Foundation
 
 class LoginViewModel {
-    var username: String = ""
-    var password: String = ""
-
-    private(set) var cachedUsers: [User]?
+    // MARK: Lifecycle
 
     init() {
         preloadUsers()
     }
 
-    private func preloadUsers() {
-        DispatchQueue.global(qos: .utility).async {
-            self.cachedUsers = loadUsersFromJSON()
-        }
-    }
+    // MARK: Internal
+
+    var username: String = ""
+    var password: String = ""
+
+    private(set) var cachedUsers: [User]?
 
     func login(completion: @escaping (Bool) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async {
@@ -34,5 +32,13 @@ class LoginViewModel {
 
         // Update the cached list so login sees the new user
         cachedUsers = users
+    }
+
+    // MARK: Private
+
+    private func preloadUsers() {
+        DispatchQueue.global(qos: .utility).async {
+            self.cachedUsers = loadUsersFromJSON()
+        }
     }
 }

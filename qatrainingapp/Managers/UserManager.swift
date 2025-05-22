@@ -2,11 +2,11 @@
 import Foundation
 
 class UserManager {
-    static let shared = UserManager()
+    // MARK: Internal
 
-    private let fileName = "admin_config"
+    static let shared: UserManager = .init()
 
-    // Load users from bundled JSON
+    /// Load users from bundled JSON
     func loadUsersFromBundle() -> [User] {
         if let url = Bundle.main.url(forResource: fileName, withExtension: "json") {
             do {
@@ -22,4 +22,8 @@ class UserManager {
         }
         return []
     }
+
+    // MARK: Private
+
+    private let fileName = "admin_config"
 }

@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - User
+
 struct User: Codable {
     let name: String
     let username: String
@@ -8,7 +10,12 @@ struct User: Codable {
 
 func loadUsersFromJSON() -> [User]? {
     let fileManager = FileManager.default
-    guard let documentsDirectory = try? fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) else {
+    guard let documentsDirectory = try? fileManager.url(
+        for: .documentDirectory,
+        in: .userDomainMask,
+        appropriateFor: nil,
+        create: false
+    ) else {
         return nil
     }
 
@@ -25,7 +32,14 @@ func loadUsersFromJSON() -> [User]? {
 
 func saveUsersToJSON(users: [User]) {
     let fileManager = FileManager.default
-    guard let documentsDirectory = try? fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) else { return }
+    guard let documentsDirectory = try? fileManager.url(
+        for: .documentDirectory,
+        in: .userDomainMask,
+        appropriateFor: nil,
+        create: false
+    ) else {
+        return
+    }
 
     let fileURL = documentsDirectory.appendingPathComponent("admin_config.json")
 
