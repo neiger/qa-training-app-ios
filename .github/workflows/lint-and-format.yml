@@ -1,0 +1,29 @@
+name: Lint and Format
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint_and_format:
+    name: SwiftLint & SwiftFormat
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install SwiftLint
+        run: brew install swiftlint
+
+      - name: Install SwiftFormat
+        run: brew install swiftformat
+
+      - name: Run SwiftLint
+        run: swiftlint --strict
+
+      - name: Run SwiftFormat check (dry run)
+        run: swiftformat . --lint
+
