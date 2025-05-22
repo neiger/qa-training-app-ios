@@ -24,12 +24,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		236AC235C62B4829D73FC74F /* Pods_qatrainingappTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_qatrainingappTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D36F57F2D779FC600FBF5E5 /* qatrainingapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qatrainingapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D36F5952D779FC900FBF5E5 /* qatrainingappTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = qatrainingappTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D36F59F2D779FCA00FBF5E5 /* qatrainingappUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = qatrainingappUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		74CA4DC8CBD4E686A809A223 /* Pods_qatrainingapp_qatrainingappUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_qatrainingapp_qatrainingappUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B843505727812919FE998C34 /* Pods_qatrainingapp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_qatrainingapp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -98,9 +95,6 @@
 		682B5CCA8E9BCCDF194141DE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B843505727812919FE998C34 /* Pods_qatrainingapp.framework */,
-				74CA4DC8CBD4E686A809A223 /* Pods_qatrainingapp_qatrainingappUITests.framework */,
-				236AC235C62B4829D73FC74F /* Pods_qatrainingappTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -461,7 +455,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WJ5CH25BP2;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qa.test.qatrainingappTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -480,7 +474,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WJ5CH25BP2;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qa.test.qatrainingappTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -498,6 +492,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WJ5CH25BP2;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qa.test.qatrainingappUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -515,6 +510,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WJ5CH25BP2;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qa.test.qatrainingappUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
