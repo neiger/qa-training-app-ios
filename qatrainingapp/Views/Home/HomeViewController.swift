@@ -80,9 +80,9 @@ class HomeViewController: UIViewController {
         return label
     }()
 
-    private let calculatorButton: HomeViewController = .createMenuButton(title: "Calculator")
-    private let registerButton: HomeViewController = .createMenuButton(title: "Register")
-    private let logoutButton: HomeViewController = .createMenuButton(title: "Log Out")
+    private let calculatorButton: UIButton = HomeViewController.createMenuButton(title: "Calculator")
+    private let registerButton: UIButton = HomeViewController.createMenuButton(title: "Register")
+    private let logoutButton: UIButton = HomeViewController.createMenuButton(title: "Log Out")
 
     private var drawerLeadingConstraint: NSLayoutConstraint!
 
